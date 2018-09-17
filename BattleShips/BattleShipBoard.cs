@@ -24,9 +24,21 @@ namespace BattleShips
             if (direction == Direction.Horizontal)
             {
                 PlaceShipAcrossTheBoard(startPosition, ship);        
-            } 
+            }
+            else
+            {
+                PlaceShipDownTheBoard(startPosition, ship);
+            }
 
             Ships.Add(PlacedShip.Create(ship, startPosition, direction));
+        }
+
+        private void PlaceShipDownTheBoard(Position startPosition, IShip ship)
+        {
+            for (var row = startPosition.Row ;  row < ship.Length; row++)
+            {
+                shipsMatrix[row, startPosition.Column] = true;
+            }
         }
 
         private void PlaceShipAcrossTheBoard(Position startPosition, IShip ship)

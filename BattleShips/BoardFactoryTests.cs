@@ -15,24 +15,6 @@ namespace BattleShips
             Assert.IsAssignableFrom<IBoard>(board);
         }
 
-    }
-
-    public class BoardFactory
-    {
-       
-        public IBoard Create()
-        {
-            return new BattleShipBoard();
-        }
-    }
-
-    public interface IBoard
-    {
-        
-    }
-
-    public class BattleShipBoard : IBoard
-    {
 
     }
 }

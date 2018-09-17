@@ -44,11 +44,14 @@ namespace BattleShips
 
         private void CanShipBePlaced(Position startPosition, IShip ship)
         {
-            for (var column = startPosition.Column; column < ship.Length; column++)
+            var endColumn = startPosition.Column + ship.Length;
+            for (var column = startPosition.Column; column < endColumn; column++)
             {
                 if( shipsMatrix[startPosition.Row, column] ) throw new OverlapException();
             }
-            for (var row = startPosition.Row; row < ship.Length; row++)
+
+            var endRow = startPosition.Row + ship.Length;
+            for (var row = startPosition.Row; row < endRow; row++)
             {
                 if (shipsMatrix[row, startPosition.Column]) throw new OverlapException();
             }
@@ -56,7 +59,8 @@ namespace BattleShips
 
         private void PlaceShipDownTheBoard(Position startPosition, IShip ship)
         {
-            for (var row = startPosition.Row ;  row < ship.Length; row++)
+            var endRow = startPosition.Row + ship.Length;
+            for (var row = startPosition.Row ;  row < endRow; row++)
             {
                 shipsMatrix[row, startPosition.Column] = true;
             }
@@ -64,7 +68,8 @@ namespace BattleShips
 
         private void PlaceShipAcrossTheBoard(Position startPosition, IShip ship)
         {
-            for (var column = startPosition.Column; column < ship.Length; column++)
+            var endColumn = startPosition.Column + ship.Length;
+            for (var column = startPosition.Column; column < endColumn; column++)
             {
                 shipsMatrix[startPosition.Row, column] = true;
             }

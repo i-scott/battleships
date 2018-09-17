@@ -23,10 +23,15 @@ namespace BattleShips
         {
             if (direction == Direction.Horizontal)
             {
+                if ((startPosition.Column + ship.Length) > Width) throw new OutOfBoundsException();
+
                 PlaceShipAcrossTheBoard(startPosition, ship);        
             }
             else
             {
+
+                if ((startPosition.Row + ship.Length) > Height) throw new OutOfBoundsException();
+
                 PlaceShipDownTheBoard(startPosition, ship);
             }
 

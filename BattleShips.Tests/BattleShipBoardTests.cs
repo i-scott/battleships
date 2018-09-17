@@ -128,5 +128,32 @@ namespace BattleShips.Tests
             Assert.Equal(1, board.Ships.Count);
         }
 
+
+        [Theory]
+        [InlineData(0, 0, 4, Direction.Horizontal, 0, 4, 3, Direction.Horizontal)]
+        [InlineData(4, 2, 4, Direction.Horizontal, 4, 6, 3, Direction.Horizontal)]
+        [InlineData(0, 0, 4, Direction.Vertical, 4, 0, 3, Direction.Vertical)]
+        [InlineData(4, 0, 4, Direction.Horizontal, 0, 1, 3, Direction.Vertical)]
+        [InlineData(0, 0, 4, Direction.Vertical, 3, 1, 3, Direction.Horizontal)]
+        public void AddingShips_WithoutOverlap(int row1, int col1, int length1, Direction direction1, int row2, int col2, int length2, Direction direction2)
+        {
+            var board = new BattleShipBoard(10, 10);
+
+            var mockShip1 = A.Fake<IShip>();
+            A.CallTo(() => mockShip1.Length).Returns(length1);
+
+            var firstShipStartPosition = new Position(col1, row1);
+            board.Place(mockShip1, firstShipStartPosition, direction1);
+
+            var mockShip2 = A.Fake<IShip>();
+            A.CallTo(() => mockShip2.Length).Returns(length2);
+
+            var secondShipStartPosition = new Position(col2, row2);
+
+             board.Place(mockShip2, secondShipStartPosition, direction2);
+
+            Assert.Equal(2, board.Ships.Count);
+        }
+
     }
 }

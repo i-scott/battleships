@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BattleShips
 {
     public class BoardFactory
@@ -7,5 +9,6 @@ namespace BattleShips
         {
             return new BattleShipBoard(boardSize,boardSize);
         }
+
     }
 }

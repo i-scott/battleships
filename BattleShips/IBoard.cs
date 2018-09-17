@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using BattleShips.Tests;
+
 namespace BattleShips
 {
     public interface IBoard
@@ -6,5 +9,6 @@ namespace BattleShips
         int Width { get; }
 
         void Place(IShip ship, Position startPosition, Direction direction);
+        HitReult FireOn(Position position);
     }
 }

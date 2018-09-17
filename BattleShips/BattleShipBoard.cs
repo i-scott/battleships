@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BattleShips.Tests;
 
 namespace BattleShips
 {
@@ -40,6 +41,11 @@ namespace BattleShips
             }
 
             Ships.Add(PlacedShip.Create(ship, startPosition, direction));
+        }
+
+        public HitReult FireOn(Position position)
+        {
+            return shipsMatrix[position.Row, position.Column] ? HitReult.Hit : HitReult.Miss;
         }
 
         private void CanShipBePlaced(Position startPosition, IShip ship)

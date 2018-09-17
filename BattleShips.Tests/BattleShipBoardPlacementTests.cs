@@ -3,7 +3,7 @@ using Xunit;
 
 namespace BattleShips.Tests
 {
-    public class BattleShipBoardTests
+    public class BattleShipBoardPlacementTests
     {
 
         [Fact]

@@ -4,5 +4,7 @@ namespace BattleShips
     {
         int Height { get; }
         int Width { get; }
+
+        void Place(IShip ship, Position startPosition, Direction direction);
     }
 }

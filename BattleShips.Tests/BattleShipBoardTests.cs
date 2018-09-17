@@ -64,5 +64,42 @@ namespace BattleShips.Tests
             Assert.Equal(0, board.Ships.Count);
         }
 
+
+        [Fact]
+        public void AddingShipsHorizontally_ThrowsOverlapExcpetionIfExistingShipInSpace()
+        {
+            var board = new BattleShipBoard(10,10);
+
+            var mockShip = A.Fake<IShip>();
+            A.CallTo(() => mockShip.Length).Returns(4);
+
+            var firstShipStartPosition = new Position(0, 0);
+            board.Place(mockShip, firstShipStartPosition, Direction.Horizontal);
+
+            var secondShipStartPosition = new Position(2, 0);
+
+            Assert.Throws<OverlapException>(() => board.Place(mockShip, secondShipStartPosition, Direction.Horizontal));
+
+            Assert.Equal(1, board.Ships.Count);
+        }
+
+        [Fact]
+        public void AddingShipsVertically_ThrowsOverlapExcpetionIfExistingShipInSpace()
+        {
+            var board = new BattleShipBoard(10, 10);
+
+            var mockShip = A.Fake<IShip>();
+            A.CallTo(() => mockShip.Length).Returns(4);
+
+            var firstShipStartPosition = new Position(0, 0);
+            board.Place(mockShip, firstShipStartPosition, Direction.Vertical);
+
+            var secondShipStartPosition = new Position(0, 2);
+
+            Assert.Throws<OverlapException>(() => board.Place(mockShip, secondShipStartPosition, Direction.Vertical));
+
+            Assert.Equal(1, board.Ships.Count);
+        }
+
     }
 }

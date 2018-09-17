@@ -13,8 +13,6 @@ namespace BattleShips
             Direction = direction;
         }
 
-
-
         public static PlacedShip Create(IShip ship, Position startPosition, Direction direction)
         {
             return new PlacedShip(ship, startPosition, direction);

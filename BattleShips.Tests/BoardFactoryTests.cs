@@ -2,7 +2,7 @@ using System;
 using FakeItEasy;
 using Xunit;
 
-namespace BattleShips
+namespace BattleShips.Tests
 {
     public class BoardFactoryTests
     {

@@ -29,14 +29,14 @@ namespace BattleShips.Ships
         {
             if (direction == Direction.Horizontal)
             {
-                return position.Row == this._position.Row &&
+                return Direction == direction && position.Row == this._position.Row &&
                        position.Column >= this._position.Column &&
-                       position.Column <= (_position.Column + Length);
+                       position.Column <= (_position.Column + (Length-1));
             }
 
-            return position.Column == this._position.Column &&
+            return Direction == direction && position.Column == this._position.Column &&
                    position.Row >= this._position.Row &&
-                   position.Row <= (_position.Row + Length);
+                   position.Row <= (_position.Row + (Length-1));
 
         }
     }

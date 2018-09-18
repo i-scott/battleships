@@ -17,15 +17,15 @@ namespace BattleShips.Tests
                 .WithAnyArguments().ReturnsLazily(
                     (ShipType typeOfShip, Position position, Direction direction) => new Ship(typeOfShip, position, direction));
 
-            board = new BattleShipBoard(10, 10, fakeShipYard );
-
-            var startPosition = new Position(0, 0);
-            board.Place(ShipType.Frigate, startPosition, Direction.Horizontal);
         }
 
         [Fact]
         public void WhenFiredOn_ReportsHit()
         {
+            board = new BattleShipBoard(10, 10, fakeShipYard);
+
+            board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
+
             var position = new Position(0,0);
             var hitResult = board.FireOn(position);
 
@@ -35,6 +35,10 @@ namespace BattleShips.Tests
         [Fact]
         public void WhenFiredOn_ReportsMiss()
         {
+            board = new BattleShipBoard(10, 10, fakeShipYard);
+
+            board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
+
             var position = new Position(4, 0);
             var hitResult = board.FireOn(position);
 
@@ -44,12 +48,35 @@ namespace BattleShips.Tests
         [Fact]
         public void WhenFiredOn_ReportsSunk()
         {
-            var hitResult = board.FireOn(new Position(0,0));
-            hitResult = board.FireOn(new Position(1, 0));
-            hitResult = board.FireOn(new Position(2, 0));
-            hitResult = board.FireOn(new Position(3, 0));
+            board = new BattleShipBoard(10, 10, fakeShipYard);
+
+            board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
+            board.Place(ShipType.PatrolBoat, new Position(0, 1), Direction.Horizontal);
+
+            board.FireOn(new Position(0,0));
+            board.FireOn(new Position(1, 0));
+            board.FireOn(new Position(2, 0));
+            var hitResult = board.FireOn(new Position(3, 0));
 
             Assert.Equal(HitReult.Sunk, hitResult);
+        }
+
+        [Fact]
+        public void WhenAllShipsSunk_ReportsLost()
+        {
+            board = new BattleShipBoard(10, 10, fakeShipYard);
+
+            board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
+            board.Place(ShipType.PatrolBoat, new Position(0, 1), Direction.Horizontal);
+
+            board.FireOn(new Position(0, 0));
+            board.FireOn(new Position(1, 0));
+            board.FireOn(new Position(2, 0));
+            board.FireOn(new Position(3, 0));
+
+            var hitResult = board.FireOn(new Position(0, 1));
+
+            Assert.Equal(HitReult.Lost, hitResult);
         }
     }
 }

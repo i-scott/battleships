@@ -10,6 +10,8 @@ namespace BattleShips
         private readonly IShipBuilder _shipYard;
 
         public IList<IShip> Ships { get; private set; }
+        public int Width => shipsMatrix.GetLength(1);
+        public int Height => shipsMatrix.GetLength(0);
 
         public BattleShipBoard(int height, int width, IShipBuilder shipYard)
         {
@@ -19,10 +21,6 @@ namespace BattleShips
 
             Ships = new List<IShip>();
         }
-
-        public int Width => shipsMatrix.GetLength(1);
-
-        public int Height => shipsMatrix.GetLength(0);
 
         public void Place(ShipType typeOfShip, Position startPosition, Direction direction)
         {
@@ -49,14 +47,16 @@ namespace BattleShips
         }
 
         public HitReult FireOn(Position position)
-        {
-            
+        {  
             if (shipsMatrix[position.Row, position.Column])
             {
                 var ship = Ships.SingleOrDefault(s => s.IsOnPosition(position, Direction.Horizontal) ||
-                                            s.IsOnPosition(position, Direction.Vertical));
+                                                      s.IsOnPosition(position, Direction.Vertical));
                 ship.Hit++;
                 shipsMatrix[position.Row, position.Column] = false;
+
+                if (Ships.All(s => s.IsSunk())) return HitReult.Lost;
+
                 return ship.IsSunk() ? HitReult.Sunk : HitReult.Hit;
             }
 
@@ -95,7 +95,5 @@ namespace BattleShips
                 shipsMatrix[startPosition.Row, column] = true;
             }
         }
-
-
     }
 }

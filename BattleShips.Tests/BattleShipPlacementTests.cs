@@ -4,11 +4,11 @@ using Xunit;
 
 namespace BattleShips.Tests
 {
-    public class BattleShipBoardPlacementTests
+    public class BattleShipPlacementTests
     {
         private IShipBuilder fakeShipYard;
 
-        public BattleShipBoardPlacementTests()
+        public BattleShipPlacementTests()
         {
             fakeShipYard = A.Fake<IShipBuilder>();
             A.CallTo(() => fakeShipYard.Build(A<ShipType>.Ignored, A<Position>.Ignored, A<Direction>.Ignored))

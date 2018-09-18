@@ -4,6 +4,7 @@
     {
         Hit,
         Miss,
-        Sunk
+        Sunk,
+        Lost
     }
 }

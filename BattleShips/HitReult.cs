@@ -1,8 +1,9 @@
-﻿namespace BattleShips.Tests
+﻿namespace BattleShips
 {
     public enum HitReult
     {
         Hit,
-        Miss
+        Miss,
+        Sunk
     }
 }

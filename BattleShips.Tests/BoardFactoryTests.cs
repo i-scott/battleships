@@ -1,4 +1,5 @@
 using System;
+using FakeItEasy;
 using Xunit;
 
 namespace BattleShips
@@ -11,7 +12,7 @@ namespace BattleShips
         [Fact]
         public void Create_ReturnsBattleshipBoard()
         {
-            var boardFactory = new BoardFactory();
+            var boardFactory = new BoardFactory(A.Fake<IShipBuilder>());
             
             var board = boardFactory.Create();
 
@@ -21,7 +22,7 @@ namespace BattleShips
         [Fact]
         public void Create_CreatesBoardOfDefaultSize_10x10()
         {
-            var boardFactory = new BoardFactory();
+            var boardFactory = new BoardFactory(A.Fake<IShipBuilder>());
 
             var board = boardFactory.Create();
 
@@ -34,7 +35,7 @@ namespace BattleShips
         [InlineData(20, 20)]
         public void Create_CreatesBoardOfRequestedSize(int requestedSize, int expectedSize)
         {
-            var boardFactory = new BoardFactory();
+            var boardFactory = new BoardFactory(A.Fake<IShipBuilder>());
 
             var board = boardFactory.Create(requestedSize);
 

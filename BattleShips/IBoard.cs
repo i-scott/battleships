@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BattleShips.Tests;
+using BattleShips.Ships;
 
 namespace BattleShips
 {
@@ -8,7 +8,8 @@ namespace BattleShips
         int Height { get; }
         int Width { get; }
 
-        void Place(IShip ship, Position startPosition, Direction direction);
+        void Place(ShipType typeOfShip, Position startPosition, Direction direction);
+
         HitReult FireOn(Position position);
     }
 }

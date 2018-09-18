@@ -1,27 +1,33 @@
 using System.Collections.Generic;
-using BattleShips.Tests;
+using System.Linq;
+using BattleShips.Ships;
 
 namespace BattleShips
 {
     public class BattleShipBoard : IBoard
     {
         private readonly bool[,] shipsMatrix;
+        private readonly IShipBuilder _shipYard;
 
-        public IList<PlacedShip> Ships { get; private set; }
+        public IList<IShip> Ships { get; private set; }
 
-        public BattleShipBoard(int height, int width)
+        public BattleShipBoard(int height, int width, IShipBuilder shipYard)
         {
             shipsMatrix = new bool[height, width];
+            
+            _shipYard = shipYard;
 
-            Ships = new List<PlacedShip>();
+            Ships = new List<IShip>();
         }
 
         public int Width => shipsMatrix.GetLength(1);
 
         public int Height => shipsMatrix.GetLength(0);
 
-        public void Place(IShip ship, Position startPosition, Direction direction)
+        public void Place(ShipType typeOfShip, Position startPosition, Direction direction)
         {
+            var ship = _shipYard.Build(typeOfShip, startPosition, direction);
+
             if (direction == Direction.Horizontal)
             {
                 if (startPosition.Column + ship.Length > Width) throw new OutOfBoundsException();
@@ -32,7 +38,6 @@ namespace BattleShips
             }
             else
             {
-
                 if ((startPosition.Row + ship.Length) > Height) throw new OutOfBoundsException();
 
                 CanShipBePlaced(startPosition, ship);
@@ -40,12 +45,22 @@ namespace BattleShips
                 PlaceShipDownTheBoard(startPosition, ship);
             }
 
-            Ships.Add(PlacedShip.Create(ship, startPosition, direction));
+            Ships.Add(ship);
         }
 
         public HitReult FireOn(Position position)
         {
-            return shipsMatrix[position.Row, position.Column] ? HitReult.Hit : HitReult.Miss;
+            
+            if (shipsMatrix[position.Row, position.Column])
+            {
+                var ship = Ships.SingleOrDefault(s => s.IsOnPosition(position, Direction.Horizontal) ||
+                                            s.IsOnPosition(position, Direction.Vertical));
+                ship.Hit++;
+                shipsMatrix[position.Row, position.Column] = false;
+                return ship.IsSunk() ? HitReult.Sunk : HitReult.Hit;
+            }
+
+            return HitReult.Miss;
         }
 
         private void CanShipBePlaced(Position startPosition, IShip ship)

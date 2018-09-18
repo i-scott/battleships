@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BattleShips.Ships;
+﻿using BattleShips.Ships;
 
 namespace BattleShips.ShipYard
 {

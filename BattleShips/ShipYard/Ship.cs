@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BattleShips.Ships
+﻿namespace BattleShips.Ships
 {
     public class Ship : IShip
     {

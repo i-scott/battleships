@@ -6,23 +6,21 @@ namespace BattleShips.Tests
 {
     public class FireControlTests
     {
-        private IShipBuilder fakeShipYard;
-
+        private readonly IShipBuilder _fakeShipYard;
 
         protected IBoard board;
         public FireControlTests()
         {
-            fakeShipYard = A.Fake<IShipBuilder>();
-            A.CallTo(() => fakeShipYard.Build(A<ShipType>.Ignored, A<Position>.Ignored, A<Direction>.Ignored))
+            _fakeShipYard = A.Fake<IShipBuilder>();
+            A.CallTo(() => _fakeShipYard.Build(A<ShipType>.Ignored, A<Position>.Ignored, A<Direction>.Ignored))
                 .WithAnyArguments().ReturnsLazily(
                     (ShipType typeOfShip, Position position, Direction direction) => new Ship(typeOfShip, position, direction));
-
         }
 
         [Fact]
         public void WhenFiredOn_ReportsHit()
         {
-            board = new BattleShipBoard(10, 10, fakeShipYard);
+            board = new BattleShipBoard(10, 10, _fakeShipYard);
 
             board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
 
@@ -35,7 +33,7 @@ namespace BattleShips.Tests
         [Fact]
         public void WhenFiredOn_ReportsMiss()
         {
-            board = new BattleShipBoard(10, 10, fakeShipYard);
+            board = new BattleShipBoard(10, 10, _fakeShipYard);
 
             board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
 
@@ -48,7 +46,7 @@ namespace BattleShips.Tests
         [Fact]
         public void WhenFiredOn_ReportsSunk()
         {
-            board = new BattleShipBoard(10, 10, fakeShipYard);
+            board = new BattleShipBoard(10, 10, _fakeShipYard);
 
             board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
             board.Place(ShipType.PatrolBoat, new Position(0, 1), Direction.Horizontal);
@@ -64,7 +62,7 @@ namespace BattleShips.Tests
         [Fact]
         public void WhenAllShipsSunk_ReportsLost()
         {
-            board = new BattleShipBoard(10, 10, fakeShipYard);
+            board = new BattleShipBoard(10, 10, _fakeShipYard);
 
             board.Place(ShipType.Frigate, new Position(0, 0), Direction.Horizontal);
             board.Place(ShipType.PatrolBoat, new Position(0, 1), Direction.Horizontal);
